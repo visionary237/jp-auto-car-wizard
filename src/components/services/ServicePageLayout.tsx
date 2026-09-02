@@ -211,8 +211,10 @@ export function ServicePageLayout({ page }: { page: ServicePage }) {
                   <Button size="lg" className="gap-2" onClick={() => setDialogOpen(true)}>
                     Préparer ma demande <ArrowRight className="size-4" />
                   </Button>
-                  <Button size="lg" variant="outline" className="gap-2" onClick={() => setDialogOpen(true)}>
-                    <MessageCircle className="size-4" /> Continuer sur WhatsApp
+                  <Button size="lg" variant="outline" className="gap-2" asChild>
+                    <a href={buildWhatsappUrl(prefill)} target="_blank" rel="noopener noreferrer">
+                      <WhatsappIcon className="size-4" /> Envoyer ma demande sur WhatsApp
+                    </a>
                   </Button>
                 </div>
                 <p className="mt-4 text-xs text-muted-foreground">{DISCLAIMER}</p>
