@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { ArrowRight, FlaskConical } from "lucide-react";
 import {
   Dialog,
@@ -168,10 +168,25 @@ export function WhatsappCta({
   data: Partial<RequestData>;
   className?: string;
 }) {
+  const href = buildWhatsappUrl(data);
+
+  /** Ouvre WhatsApp hors de l'iframe de prévisualisation (destination externe). */
+  const openExternal = (e: ReactMouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const win = window.open(href, "_blank", "noopener,noreferrer");
+    if (!win) {
+      try {
+        window.top!.location.href = href;
+      } catch {
+        window.location.href = href;
+      }
+    }
+  };
+
   return (
     <div className={className}>
       <Button asChild size="lg" className="w-full gap-2">
-        <a href={buildWhatsappUrl(data)} target="_blank" rel="noopener noreferrer">
+        <a href={href} target="_blank" rel="noopener noreferrer" onClick={openExternal}>
           <WhatsappIcon className="size-4" />
           Envoyer ma demande sur WhatsApp →
         </a>

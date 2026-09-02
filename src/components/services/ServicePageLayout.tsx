@@ -4,7 +4,7 @@ import { ArrowRight, Check, ChevronRight, Info, MousePointerClick } from "lucide
 import { Navbar } from "@/components/Navbar";
 import { ServiceCarView } from "@/components/services/ServiceCarView";
 import { RequestDialog, WhatsappIcon } from "@/components/RequestDialog";
-import { buildWhatsappUrl } from "@/lib/whatsapp";
+import { buildWhatsappUrl, openWhatsapp } from "@/lib/whatsapp";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -213,7 +213,15 @@ export function ServicePageLayout({ page }: { page: ServicePage }) {
                     Préparer ma demande <ArrowRight className="size-4" />
                   </Button>
                   <Button size="lg" variant="outline" className="gap-2" asChild>
-                    <a href={buildWhatsappUrl(prefill)} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={buildWhatsappUrl(prefill)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        openWhatsapp(prefill);
+                      }}
+                    >
                       <WhatsappIcon className="size-4" /> Envoyer ma demande sur WhatsApp
                     </a>
                   </Button>
