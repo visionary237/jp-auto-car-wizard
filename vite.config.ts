@@ -11,5 +11,21 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    // Pré-rendu HTML statique de toutes les routes publiques (hébergement Hostinger).
+    pages: [
+      { path: "/" },
+      { path: "/garage-le-havre" },
+      { path: "/revision-vidange-le-havre" },
+      { path: "/freinage-le-havre" },
+      { path: "/pneus-le-havre" },
+      { path: "/embrayage-le-havre" },
+      { path: "/boite-automatique-le-havre" },
+      { path: "/diagnostic-auto-le-havre" },
+      { path: "/nettoyage-fap-le-havre" },
+      { path: "/suspension-le-havre" },
+      { path: "/batterie-demarrage-le-havre" },
+    ],
+    prerender: { enabled: true, autoStaticPathsDiscovery: false },
   },
 });
+
