@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, HelpCircle, MousePointerClick, X } from "lucide-react";
 import { InteractiveCar } from "@/components/InteractiveCar";
+import { RequestDialog } from "@/components/RequestDialog";
 import { AREAS, GLOBAL_SYMPTOMS, QUICK_AREAS, type AreaId } from "@/lib/car-selector-data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,9 +17,29 @@ export function CarSelector() {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [hovered, setHovered] = useState<AreaId | null>(null);
   const [unknownMode, setUnknownMode] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const area = selectedArea ? AREAS[selectedArea] : null;
   const zoomed = !unknownMode && !!area;
+
+  const symptomLabel = useMemo(() => {
+    if (!selectedSymptom) return "";
+    const local = area?.symptoms.find((s) => s.id === selectedSymptom);
+    if (local) return local.label;
+    return GLOBAL_SYMPTOMS.find((s) => s.id === selectedSymptom)?.label ?? "";
+  }, [selectedSymptom, area]);
+
+  const prefill = useMemo(
+    () => ({
+      selectedArea: area?.title ?? "",
+      selectedComponent: selectedComponent
+        ? (area?.components.find((c) => c.id === selectedComponent)?.label ?? "")
+        : "",
+      selectedSymptom: symptomLabel,
+      selectedService: selectedService ?? "",
+    }),
+    [area, selectedComponent, symptomLabel, selectedService],
+  );
 
   // Les composants techniques n'apparaissent qu'une fois la caméra arrivée
   const [showComponents, setShowComponents] = useState(false);
