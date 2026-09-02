@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, HelpCircle, MousePointerClick, X } from "lucide-react";
 import { InteractiveCar } from "@/components/InteractiveCar";
 import { AREAS, GLOBAL_SYMPTOMS, QUICK_AREAS, type AreaId } from "@/lib/car-selector-data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+
 
 export function CarSelector() {
   const isMobile = useIsMobile();
