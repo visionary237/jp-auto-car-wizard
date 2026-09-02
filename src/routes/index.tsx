@@ -1,6 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { CarSelector } from "@/components/CarSelector";
+import { ServiceFooter } from "@/components/services/ServicePageLayout";
+import { SERVICE_PAGES, SERVICE_ROUTES, type ServiceSlug } from "@/lib/service-pages-data";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
