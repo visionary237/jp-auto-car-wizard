@@ -276,6 +276,8 @@ export function CarSelector() {
           Je ne sais pas d'où vient le problème
         </button>
       )}
+
+      <RequestDialog open={dialogOpen} onOpenChange={setDialogOpen} prefill={prefill} />
     </div>
   );
 }
@@ -284,10 +286,12 @@ function Recap({
   area,
   component,
   service,
+  onContinue,
 }: {
   area: string | null;
   component: string | null;
   service: string | null;
+  onContinue: () => void;
 }) {
   return (
     <div className="mt-6 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
