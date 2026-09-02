@@ -308,7 +308,7 @@ function Recap({
           "Nous vous orientons vers le bon service, sans diagnostic à distance."
         )}
       </p>
-      <Button size="lg" className="gap-2">
+      <Button size="lg" className="gap-2 whitespace-nowrap" onClick={onContinue}>
         Continuer ma demande <ArrowRight className="size-4" />
       </Button>
     </div>
