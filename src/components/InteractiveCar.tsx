@@ -6,6 +6,7 @@ type Props = {
   hovered: AreaId | null;
   selectedComponent: string | null;
   zoomed: boolean;
+  showComponents?: boolean;
   compact?: boolean;
   onHover: (id: AreaId | null) => void;
   onSelectArea: (id: AreaId) => void;
@@ -19,6 +20,7 @@ export function InteractiveCar({
   hovered,
   selectedComponent,
   zoomed,
+  showComponents = true,
   compact = false,
   onHover,
   onSelectArea,
@@ -88,7 +90,7 @@ export function InteractiveCar({
         </g>
 
         {/* carrosserie */}
-        <g className="car-body" data-dim={zoomed}>
+        <g className="car-body" data-dim={zoomed} data-soft={!zoomed && hovered !== null}>
           <path
             d="M74 306 v-52 c0-17 11-28 28-31 l150-26 74-68 c17-15 37-23 60-23 h164 c25 0 46 9 62 26 l66 66 148 26 c19 3 28 15 28 33 v49 z"
             fill="url(#aeBody)"
@@ -124,7 +126,7 @@ export function InteractiveCar({
         </g>
 
         {/* roues */}
-        <g className="car-body" data-dim={zoomed}>
+        <g className="car-body" data-dim={zoomed} data-soft={!zoomed && hovered !== null}>
           {[240, 724].map((cx) => (
             <g key={cx}>
               <circle cx={cx} cy="306" r="70" fill="oklch(0.18 0.004 250)" stroke="var(--color-steel)" strokeWidth="2.5" />
@@ -248,7 +250,7 @@ export function InteractiveCar({
         )}
 
         {/* vue éclatée : composants mécaniques de la zone zoomée */}
-        {zoomed && active && (
+        {zoomed && active && showComponents && (
           <g>
             {active.components.map((c, i) => {
               const on = selectedComponent === c.id;
