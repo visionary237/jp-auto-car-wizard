@@ -20,6 +20,18 @@ export function CarSelector() {
   const area = selectedArea ? AREAS[selectedArea] : null;
   const zoomed = !unknownMode && !!area;
 
+  // Les composants techniques n'apparaissent qu'une fois la caméra arrivée
+  const [showComponents, setShowComponents] = useState(false);
+  useEffect(() => {
+    if (!zoomed) {
+      setShowComponents(false);
+      return;
+    }
+    setShowComponents(false);
+    const t = setTimeout(() => setShowComponents(true), 560);
+    return () => clearTimeout(t);
+  }, [zoomed, selectedArea]);
+
   const selectArea = (id: AreaId) => {
     setUnknownMode(false);
     setSelectedArea(id);
@@ -30,6 +42,7 @@ export function CarSelector() {
 
   const resetZoom = () => {
     setSelectedArea(null);
+    setSelectedComponent(null);
     setHovered(null);
   };
 
@@ -42,44 +55,109 @@ export function CarSelector() {
 
   return (
     <div className="w-full">
-      <div className="relative surface-panel overflow-hidden rounded-2xl px-2 py-5 sm:px-6 sm:py-8">
-        <span className="eyebrow absolute left-4 top-4 sm:left-6">
-          {area ? area.title : "Sélecteur véhicule"}
-        </span>
-
-        {zoomed && (
-          <button
-            type="button"
-            onClick={resetZoom}
-            className="absolute right-4 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-accent hover:text-foreground sm:right-6"
-          >
-            <ArrowLeft className="size-3.5" /> Revenir au véhicule
-          </button>
+      <div
+        className={cn(
+          "grid gap-4 transition-all duration-500",
+          zoomed && "lg:grid-cols-[minmax(0,1.35fr)_minmax(300px,1fr)] lg:items-start",
         )}
+      >
+        <div className="relative surface-panel overflow-hidden rounded-2xl px-2 py-5 sm:px-6 sm:py-8">
+          <span className="eyebrow absolute left-4 top-4 sm:left-6">
+            {area ? area.title : "Sélecteur véhicule"}
+          </span>
 
-        <div className="pt-6">
-          <InteractiveCar
-            selected={selectedArea}
-            hovered={hovered}
-            selectedComponent={selectedComponent}
-            zoomed={zoomed}
-            compact={isMobile}
-            onHover={setHovered}
-            onSelectArea={selectArea}
-            onSelectComponent={(id, service) => {
-              setSelectedComponent(id);
-              setSelectedService(service);
-            }}
-          />
+          {zoomed && (
+            <button
+              type="button"
+              onClick={resetZoom}
+              className="absolute right-4 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-accent hover:text-foreground sm:right-6"
+            >
+              <ArrowLeft className="size-3.5" /> Vue d'ensemble
+            </button>
+          )}
+
+          <div className="pt-6">
+            <InteractiveCar
+              selected={selectedArea}
+              hovered={hovered}
+              selectedComponent={selectedComponent}
+              zoomed={zoomed}
+              showComponents={showComponents}
+              compact={isMobile}
+              onHover={setHovered}
+              onSelectArea={selectArea}
+              onSelectComponent={(id, service) => {
+                setSelectedComponent(id);
+                setSelectedService(service);
+              }}
+            />
+          </div>
+
+          {!zoomed && (
+            <p className="mt-2 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+              <MousePointerClick className="size-3.5" />
+              Cliquez sur une zone du véhicule
+            </p>
+          )}
         </div>
 
-        {!zoomed && (
-          <p className="mt-2 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-            <MousePointerClick className="size-3.5" />
-            Cliquez sur une zone du véhicule
-          </p>
+        {/* Panneau contextuel (à droite en desktop lors du zoom) */}
+        {zoomed && area && (
+          <div className="surface-panel animate-fade-in rounded-2xl p-5 sm:p-7">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <span className="eyebrow">Zone sélectionnée</span>
+                <h2 className="mt-2 text-xl font-semibold sm:text-2xl">{area.title}</h2>
+                <p className="mt-1 text-sm text-muted-foreground">{area.question}</p>
+              </div>
+              <button
+                type="button"
+                onClick={resetZoom}
+                aria-label="Fermer le panneau"
+                className="rounded-full border border-border p-2 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
+            <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              {area.symptoms.map((s) => {
+                const on = selectedSymptom === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedSymptom(s.id);
+                      setSelectedService(s.service);
+                    }}
+                    className={cn(
+                      "flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-all duration-300",
+                      on
+                        ? "border-accent bg-accent/10 text-foreground"
+                        : "border-border bg-card/60 text-muted-foreground hover:border-accent/60 hover:text-foreground",
+                    )}
+                  >
+                    {s.label}
+                    {on && <Check className="size-4 text-accent" />}
+                  </button>
+                );
+              })}
+            </div>
+
+            <Recap
+              area={area.title}
+              component={
+                selectedComponent
+                  ? (area.components.find((c) => c.id === selectedComponent)?.label ?? null)
+                  : null
+              }
+              service={selectedService}
+            />
+          </div>
         )}
       </div>
+
 
       {/* Raccourcis accessibles / mobile */}
       <div className="mt-4 flex flex-wrap gap-2">
