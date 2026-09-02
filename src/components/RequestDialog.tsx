@@ -171,7 +171,7 @@ export function WhatsappCta({
   const href = buildWhatsappUrl(data);
 
   /** Ouvre WhatsApp hors de l'iframe de prévisualisation (destination externe). */
-  const openExternal = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const openExternal = (e: ReactMouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const win = window.open(href, "_blank", "noopener,noreferrer");
     if (!win) {
