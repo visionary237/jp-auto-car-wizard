@@ -174,6 +174,7 @@ export function CarSelector() {
                   : null
               }
               service={selectedService}
+              onContinue={() => setDialogOpen(true)}
             />
           </div>
         )}
