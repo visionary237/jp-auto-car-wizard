@@ -1,24 +1,66 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/Navbar";
+import { CarSelector } from "@/components/CarSelector";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "AUTO EXPRESS 76 — Garage automobile au Havre" },
+      {
+        name: "description",
+        content:
+          "Montrez-nous où est le problème : sélectionnez une zone de votre véhicule et obtenez la bonne prise en charge au garage AUTO EXPRESS 76, au Havre.",
+      },
+      { property: "og:title", content: "AUTO EXPRESS 76 — Garage automobile au Havre" },
+      {
+        property: "og:description",
+        content:
+          "Un bruit, un voyant, une pièce à contrôler ? Préqualifiez votre besoin en ligne avec notre sélecteur véhicule interactif.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main id="accueil">
+        <section className="relative overflow-hidden">
+          <div className="hero-glow pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-14 lg:py-20">
+            <div className="animate-fade-in">
+              <p className="eyebrow">Garage automobile • Le Havre</p>
+              <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] sm:text-5xl xl:text-6xl">
+                Un problème avec votre voiture ?
+                <span className="mt-2 block text-accent">Montrez-nous où.</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                Un bruit, un voyant ou une pièce à contrôler ? Sélectionnez une zone de votre véhicule
+                et laissez-nous vous guider vers la bonne prise en charge.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-accent" />
+                  Réponse rapide, sans appel téléphonique
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-accent/60" />
+                  Devis et rendez-vous en quelques clics
+                </span>
+              </div>
+            </div>
+
+            <div className="animate-fade-in">
+              <CarSelector />
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
