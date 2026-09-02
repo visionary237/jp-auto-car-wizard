@@ -10,33 +10,168 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BatterieDemarrageLeHavreRouteImport } from './routes/batterie-demarrage-le-havre'
+import { Route as BoiteAutomatiqueLeHavreRouteImport } from './routes/boite-automatique-le-havre'
+import { Route as DiagnosticAutoLeHavreRouteImport } from './routes/diagnostic-auto-le-havre'
+import { Route as EmbrayageLeHavreRouteImport } from './routes/embrayage-le-havre'
+import { Route as FreinageLeHavreRouteImport } from './routes/freinage-le-havre'
+import { Route as GarageLeHavreRouteImport } from './routes/garage-le-havre'
+import { Route as NettoyageFapLeHavreRouteImport } from './routes/nettoyage-fap-le-havre'
+import { Route as PneusLeHavreRouteImport } from './routes/pneus-le-havre'
+import { Route as RevisionVidangeLeHavreRouteImport } from './routes/revision-vidange-le-havre'
+import { Route as SuspensionLeHavreRouteImport } from './routes/suspension-le-havre'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BatterieDemarrageLeHavreRoute =
+  BatterieDemarrageLeHavreRouteImport.update({
+    id: '/batterie-demarrage-le-havre',
+    path: '/batterie-demarrage-le-havre',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BoiteAutomatiqueLeHavreRoute = BoiteAutomatiqueLeHavreRouteImport.update({
+  id: '/boite-automatique-le-havre',
+  path: '/boite-automatique-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticAutoLeHavreRoute = DiagnosticAutoLeHavreRouteImport.update({
+  id: '/diagnostic-auto-le-havre',
+  path: '/diagnostic-auto-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmbrayageLeHavreRoute = EmbrayageLeHavreRouteImport.update({
+  id: '/embrayage-le-havre',
+  path: '/embrayage-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FreinageLeHavreRoute = FreinageLeHavreRouteImport.update({
+  id: '/freinage-le-havre',
+  path: '/freinage-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GarageLeHavreRoute = GarageLeHavreRouteImport.update({
+  id: '/garage-le-havre',
+  path: '/garage-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NettoyageFapLeHavreRoute = NettoyageFapLeHavreRouteImport.update({
+  id: '/nettoyage-fap-le-havre',
+  path: '/nettoyage-fap-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PneusLeHavreRoute = PneusLeHavreRouteImport.update({
+  id: '/pneus-le-havre',
+  path: '/pneus-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RevisionVidangeLeHavreRoute = RevisionVidangeLeHavreRouteImport.update({
+  id: '/revision-vidange-le-havre',
+  path: '/revision-vidange-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuspensionLeHavreRoute = SuspensionLeHavreRouteImport.update({
+  id: '/suspension-le-havre',
+  path: '/suspension-le-havre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/batterie-demarrage-le-havre': typeof BatterieDemarrageLeHavreRoute
+  '/boite-automatique-le-havre': typeof BoiteAutomatiqueLeHavreRoute
+  '/diagnostic-auto-le-havre': typeof DiagnosticAutoLeHavreRoute
+  '/embrayage-le-havre': typeof EmbrayageLeHavreRoute
+  '/freinage-le-havre': typeof FreinageLeHavreRoute
+  '/garage-le-havre': typeof GarageLeHavreRoute
+  '/nettoyage-fap-le-havre': typeof NettoyageFapLeHavreRoute
+  '/pneus-le-havre': typeof PneusLeHavreRoute
+  '/revision-vidange-le-havre': typeof RevisionVidangeLeHavreRoute
+  '/suspension-le-havre': typeof SuspensionLeHavreRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/batterie-demarrage-le-havre': typeof BatterieDemarrageLeHavreRoute
+  '/boite-automatique-le-havre': typeof BoiteAutomatiqueLeHavreRoute
+  '/diagnostic-auto-le-havre': typeof DiagnosticAutoLeHavreRoute
+  '/embrayage-le-havre': typeof EmbrayageLeHavreRoute
+  '/freinage-le-havre': typeof FreinageLeHavreRoute
+  '/garage-le-havre': typeof GarageLeHavreRoute
+  '/nettoyage-fap-le-havre': typeof NettoyageFapLeHavreRoute
+  '/pneus-le-havre': typeof PneusLeHavreRoute
+  '/revision-vidange-le-havre': typeof RevisionVidangeLeHavreRoute
+  '/suspension-le-havre': typeof SuspensionLeHavreRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/batterie-demarrage-le-havre': typeof BatterieDemarrageLeHavreRoute
+  '/boite-automatique-le-havre': typeof BoiteAutomatiqueLeHavreRoute
+  '/diagnostic-auto-le-havre': typeof DiagnosticAutoLeHavreRoute
+  '/embrayage-le-havre': typeof EmbrayageLeHavreRoute
+  '/freinage-le-havre': typeof FreinageLeHavreRoute
+  '/garage-le-havre': typeof GarageLeHavreRoute
+  '/nettoyage-fap-le-havre': typeof NettoyageFapLeHavreRoute
+  '/pneus-le-havre': typeof PneusLeHavreRoute
+  '/revision-vidange-le-havre': typeof RevisionVidangeLeHavreRoute
+  '/suspension-le-havre': typeof SuspensionLeHavreRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/batterie-demarrage-le-havre'
+    | '/boite-automatique-le-havre'
+    | '/diagnostic-auto-le-havre'
+    | '/embrayage-le-havre'
+    | '/freinage-le-havre'
+    | '/garage-le-havre'
+    | '/nettoyage-fap-le-havre'
+    | '/pneus-le-havre'
+    | '/revision-vidange-le-havre'
+    | '/suspension-le-havre'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/batterie-demarrage-le-havre'
+    | '/boite-automatique-le-havre'
+    | '/diagnostic-auto-le-havre'
+    | '/embrayage-le-havre'
+    | '/freinage-le-havre'
+    | '/garage-le-havre'
+    | '/nettoyage-fap-le-havre'
+    | '/pneus-le-havre'
+    | '/revision-vidange-le-havre'
+    | '/suspension-le-havre'
+  id:
+    | '__root__'
+    | '/'
+    | '/batterie-demarrage-le-havre'
+    | '/boite-automatique-le-havre'
+    | '/diagnostic-auto-le-havre'
+    | '/embrayage-le-havre'
+    | '/freinage-le-havre'
+    | '/garage-le-havre'
+    | '/nettoyage-fap-le-havre'
+    | '/pneus-le-havre'
+    | '/revision-vidange-le-havre'
+    | '/suspension-le-havre'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BatterieDemarrageLeHavreRoute: typeof BatterieDemarrageLeHavreRoute
+  BoiteAutomatiqueLeHavreRoute: typeof BoiteAutomatiqueLeHavreRoute
+  DiagnosticAutoLeHavreRoute: typeof DiagnosticAutoLeHavreRoute
+  EmbrayageLeHavreRoute: typeof EmbrayageLeHavreRoute
+  FreinageLeHavreRoute: typeof FreinageLeHavreRoute
+  GarageLeHavreRoute: typeof GarageLeHavreRoute
+  NettoyageFapLeHavreRoute: typeof NettoyageFapLeHavreRoute
+  PneusLeHavreRoute: typeof PneusLeHavreRoute
+  RevisionVidangeLeHavreRoute: typeof RevisionVidangeLeHavreRoute
+  SuspensionLeHavreRoute: typeof SuspensionLeHavreRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +183,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/batterie-demarrage-le-havre': {
+      id: '/batterie-demarrage-le-havre'
+      path: '/batterie-demarrage-le-havre'
+      fullPath: '/batterie-demarrage-le-havre'
+      preLoaderRoute: typeof BatterieDemarrageLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boite-automatique-le-havre': {
+      id: '/boite-automatique-le-havre'
+      path: '/boite-automatique-le-havre'
+      fullPath: '/boite-automatique-le-havre'
+      preLoaderRoute: typeof BoiteAutomatiqueLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostic-auto-le-havre': {
+      id: '/diagnostic-auto-le-havre'
+      path: '/diagnostic-auto-le-havre'
+      fullPath: '/diagnostic-auto-le-havre'
+      preLoaderRoute: typeof DiagnosticAutoLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/embrayage-le-havre': {
+      id: '/embrayage-le-havre'
+      path: '/embrayage-le-havre'
+      fullPath: '/embrayage-le-havre'
+      preLoaderRoute: typeof EmbrayageLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/freinage-le-havre': {
+      id: '/freinage-le-havre'
+      path: '/freinage-le-havre'
+      fullPath: '/freinage-le-havre'
+      preLoaderRoute: typeof FreinageLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/garage-le-havre': {
+      id: '/garage-le-havre'
+      path: '/garage-le-havre'
+      fullPath: '/garage-le-havre'
+      preLoaderRoute: typeof GarageLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nettoyage-fap-le-havre': {
+      id: '/nettoyage-fap-le-havre'
+      path: '/nettoyage-fap-le-havre'
+      fullPath: '/nettoyage-fap-le-havre'
+      preLoaderRoute: typeof NettoyageFapLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pneus-le-havre': {
+      id: '/pneus-le-havre'
+      path: '/pneus-le-havre'
+      fullPath: '/pneus-le-havre'
+      preLoaderRoute: typeof PneusLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/revision-vidange-le-havre': {
+      id: '/revision-vidange-le-havre'
+      path: '/revision-vidange-le-havre'
+      fullPath: '/revision-vidange-le-havre'
+      preLoaderRoute: typeof RevisionVidangeLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suspension-le-havre': {
+      id: '/suspension-le-havre'
+      path: '/suspension-le-havre'
+      fullPath: '/suspension-le-havre'
+      preLoaderRoute: typeof SuspensionLeHavreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BatterieDemarrageLeHavreRoute: BatterieDemarrageLeHavreRoute,
+  BoiteAutomatiqueLeHavreRoute: BoiteAutomatiqueLeHavreRoute,
+  DiagnosticAutoLeHavreRoute: DiagnosticAutoLeHavreRoute,
+  EmbrayageLeHavreRoute: EmbrayageLeHavreRoute,
+  FreinageLeHavreRoute: FreinageLeHavreRoute,
+  GarageLeHavreRoute: GarageLeHavreRoute,
+  NettoyageFapLeHavreRoute: NettoyageFapLeHavreRoute,
+  PneusLeHavreRoute: PneusLeHavreRoute,
+  RevisionVidangeLeHavreRoute: RevisionVidangeLeHavreRoute,
+  SuspensionLeHavreRoute: SuspensionLeHavreRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
