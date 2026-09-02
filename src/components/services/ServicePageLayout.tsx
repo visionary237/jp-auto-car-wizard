@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Check, ChevronRight, Info, MessageCircle, MousePointerClick } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, Info, MousePointerClick } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { ServiceCarView } from "@/components/services/ServiceCarView";
-import { RequestDialog } from "@/components/RequestDialog";
+import { RequestDialog, WhatsappIcon } from "@/components/RequestDialog";
+import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
