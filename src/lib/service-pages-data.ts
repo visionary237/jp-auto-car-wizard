@@ -1456,3 +1456,19 @@ export const SERVICE_NAV: { slug: string; label: string }[] = [
   { slug: "suspension-le-havre", label: "Suspension" },
   { slug: "batterie-demarrage-le-havre", label: "Batterie & démarrage" },
 ];
+
+/** Chemins typés pour les <Link> internes */
+export const SERVICE_ROUTES = {
+  "garage-le-havre": "/garage-le-havre",
+  "revision-vidange-le-havre": "/revision-vidange-le-havre",
+  "freinage-le-havre": "/freinage-le-havre",
+  "pneus-le-havre": "/pneus-le-havre",
+  "embrayage-le-havre": "/embrayage-le-havre",
+  "boite-automatique-le-havre": "/boite-automatique-le-havre",
+  "diagnostic-auto-le-havre": "/diagnostic-auto-le-havre",
+  "nettoyage-fap-le-havre": "/nettoyage-fap-le-havre",
+  "suspension-le-havre": "/suspension-le-havre",
+  "batterie-demarrage-le-havre": "/batterie-demarrage-le-havre",
+} as const;
+
+export type ServiceSlug = keyof typeof SERVICE_ROUTES;
