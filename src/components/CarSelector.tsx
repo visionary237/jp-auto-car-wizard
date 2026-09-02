@@ -257,7 +257,12 @@ export function CarSelector() {
             })}
           </div>
 
-          <Recap area={null} component={null} service={selectedService} />
+          <Recap
+            area={null}
+            component={null}
+            service={selectedService}
+            onContinue={() => setDialogOpen(true)}
+          />
         </div>
       )}
 
