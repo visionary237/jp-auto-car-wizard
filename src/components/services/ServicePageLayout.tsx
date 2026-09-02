@@ -8,7 +8,14 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { AREAS } from "@/lib/car-selector-data";
-import { DISCLAIMER, SERVICE_PAGES, SIGNATURE, type ServicePage } from "@/lib/service-pages-data";
+import {
+  DISCLAIMER,
+  SERVICE_PAGES,
+  SERVICE_ROUTES,
+  SIGNATURE,
+  type ServicePage,
+  type ServiceSlug,
+} from "@/lib/service-pages-data";
 
 export function ServicePageLayout({ page }: { page: ServicePage }) {
   const isMobile = useIsMobile();
@@ -265,7 +272,7 @@ export function ServicePageLayout({ page }: { page: ServicePage }) {
               {page.related.map((r) => (
                 <Link
                   key={r.slug}
-                  to={`/${r.slug}` as string}
+                  to={SERVICE_ROUTES[r.slug as ServiceSlug]}
                   className="surface-panel group rounded-2xl p-5 transition-colors hover:border-accent/60"
                 >
                   <span className="font-display text-base font-bold group-hover:text-accent">{r.label}</span>
@@ -371,7 +378,7 @@ export function ServiceFooter({ currentSlug }: { currentSlug?: string }) {
               {p.slug === currentSlug ? (
                 <span className="text-foreground">{p.shortName}</span>
               ) : (
-                <Link to={`/${p.slug}` as string} className="text-muted-foreground hover:text-accent">
+                <Link to={SERVICE_ROUTES[p.slug as ServiceSlug]} className="text-muted-foreground hover:text-accent">
                   {p.shortName}
                 </Link>
               )}
