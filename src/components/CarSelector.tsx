@@ -180,61 +180,8 @@ export function CarSelector() {
         ))}
       </div>
 
-      {/* Panneau symptômes de zone */}
-      {zoomed && area && (
-        <div className="mt-4 surface-panel animate-fade-in rounded-2xl p-5 sm:p-7">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <span className="eyebrow">Zone sélectionnée</span>
-              <h2 className="mt-2 text-xl font-semibold sm:text-2xl">{area.title}</h2>
-              <p className="mt-1 text-sm text-muted-foreground">{area.question}</p>
-            </div>
-            <button
-              type="button"
-              onClick={resetZoom}
-              aria-label="Fermer le panneau"
-              className="rounded-full border border-border p-2 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <X className="size-4" />
-            </button>
-          </div>
 
-          <div className="mt-5 grid gap-2 sm:grid-cols-2">
-            {area.symptoms.map((s) => {
-              const on = selectedSymptom === s.id;
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedSymptom(s.id);
-                    setSelectedService(s.service);
-                  }}
-                  className={cn(
-                    "flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-all duration-300",
-                    on
-                      ? "border-accent bg-accent/10 text-foreground"
-                      : "border-border bg-card/60 text-muted-foreground hover:border-accent/60 hover:text-foreground",
-                  )}
-                >
-                  {s.label}
-                  {on && <Check className="size-4 text-accent" />}
-                </button>
-              );
-            })}
-          </div>
 
-          <Recap
-            area={area.title}
-            component={
-              selectedComponent
-                ? (area.components.find((c) => c.id === selectedComponent)?.label ?? null)
-                : null
-            }
-            service={selectedService}
-          />
-        </div>
-      )}
 
       {/* Parcours alternatif */}
       {unknownMode && (
