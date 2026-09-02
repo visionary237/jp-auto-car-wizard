@@ -33,10 +33,10 @@ export function ServicePageLayout({ page }: { page: ServicePage }) {
 
   const prefill = useMemo(
     () => ({
-      service: selectedService,
-      component: component?.name ?? "",
-      symptom: symptom?.label ?? "",
-      details: `Zone : ${AREAS[selectedArea]?.title ?? page.shortName} — page ${page.shortName}.`,
+      selectedService,
+      selectedComponent: component?.name ?? "",
+      selectedSymptom: symptom?.label ?? "",
+      selectedArea: AREAS[selectedArea]?.title ?? page.shortName,
     }),
     [selectedService, component, symptom, selectedArea, page.shortName],
   );
