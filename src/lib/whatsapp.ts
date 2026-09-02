@@ -111,3 +111,19 @@ export function buildWhatsappMessage(d: Partial<RequestData>): string {
 export function buildWhatsappUrl(d: Partial<RequestData>): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildWhatsappMessage(d))}`;
 }
+
+/**
+ * Ouvre WhatsApp comme une destination EXTERNE (jamais dans l'iframe de preview).
+ * Retombe sur la fenêtre parente si les popups sont bloquées.
+ */
+export function openWhatsapp(d: Partial<RequestData>): void {
+  const url = buildWhatsappUrl(d);
+  const win = window.open(url, "_blank", "noopener,noreferrer");
+  if (!win) {
+    try {
+      window.top!.location.href = url;
+    } catch {
+      window.location.href = url;
+    }
+  }
+}
