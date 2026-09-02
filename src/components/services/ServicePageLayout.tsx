@@ -4,7 +4,7 @@ import { ArrowRight, Check, ChevronRight, Info, MousePointerClick } from "lucide
 import { Navbar } from "@/components/Navbar";
 import { ServiceCarView } from "@/components/services/ServiceCarView";
 import { RequestDialog, WhatsappIcon } from "@/components/RequestDialog";
-import { buildWhatsappUrl } from "@/lib/whatsapp";
+import { buildWhatsappUrl, openWhatsapp } from "@/lib/whatsapp";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
