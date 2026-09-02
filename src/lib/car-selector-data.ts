@@ -80,7 +80,7 @@ export const AREAS: Record<AreaId, Area> = {
     label: { x: 240, y: 398 },
     service: "freinage",
     components: [
-      { id: "tyre", label: "Pneumatique", x: 240, y: 240, dx: 0, dy: -46, service: "pneumatiques" },
+      { id: "tyre", label: "Pneumatique", x: 254, y: 240, dx: 62, dy: -40, service: "pneumatiques" },
       { id: "rim", label: "Jante", x: 196, y: 268, dx: -66, dy: -26, service: "pneumatiques" },
       { id: "brake-pads", label: "Plaquettes", x: 272, y: 282, dx: 74, dy: -22, service: "freinage" },
       { id: "brake-disc", label: "Disque", x: 240, y: 306, dx: 0, dy: 84, service: "freinage" },
