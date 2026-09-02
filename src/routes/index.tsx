@@ -60,7 +60,35 @@ function Index() {
             </div>
           </div>
         </section>
+
+        <section id="services" className="border-t border-border/60 bg-card/30">
+          <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+            <span className="eyebrow">Nos prestations • Le Havre</span>
+            <h2 className="mt-3 font-display text-2xl font-bold sm:text-3xl">
+              Explorez votre véhicule, service par service
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
+              Chaque page détaille les pièces concernées, les signes qui doivent alerter et vous permet de
+              transmettre votre demande directement à l'atelier.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Object.values(SERVICE_PAGES).map((p) => (
+                <Link
+                  key={p.slug}
+                  to={SERVICE_ROUTES[p.slug as ServiceSlug]}
+                  className="surface-panel group rounded-2xl p-5 transition-colors hover:border-accent/60"
+                >
+                  <span className="font-display text-base font-bold group-hover:text-accent">{p.shortName}</span>
+                  <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">{p.intro}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <ServiceFooter />
       </main>
     </div>
   );
 }
+
