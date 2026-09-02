@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, HelpCircle, MousePointerClick, X } from "lucide-react";
 import { InteractiveCar } from "@/components/InteractiveCar";
+import { RequestDialog } from "@/components/RequestDialog";
 import { AREAS, GLOBAL_SYMPTOMS, QUICK_AREAS, type AreaId } from "@/lib/car-selector-data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,9 +17,29 @@ export function CarSelector() {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [hovered, setHovered] = useState<AreaId | null>(null);
   const [unknownMode, setUnknownMode] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const area = selectedArea ? AREAS[selectedArea] : null;
   const zoomed = !unknownMode && !!area;
+
+  const symptomLabel = useMemo(() => {
+    if (!selectedSymptom) return "";
+    const local = area?.symptoms.find((s) => s.id === selectedSymptom);
+    if (local) return local.label;
+    return GLOBAL_SYMPTOMS.find((s) => s.id === selectedSymptom)?.label ?? "";
+  }, [selectedSymptom, area]);
+
+  const prefill = useMemo(
+    () => ({
+      selectedArea: area?.title ?? "",
+      selectedComponent: selectedComponent
+        ? (area?.components.find((c) => c.id === selectedComponent)?.label ?? "")
+        : "",
+      selectedSymptom: symptomLabel,
+      selectedService: selectedService ?? "",
+    }),
+    [area, selectedComponent, symptomLabel, selectedService],
+  );
 
   // Les composants techniques n'apparaissent qu'une fois la caméra arrivée
   const [showComponents, setShowComponents] = useState(false);
@@ -153,6 +174,7 @@ export function CarSelector() {
                   : null
               }
               service={selectedService}
+              onContinue={() => setDialogOpen(true)}
             />
           </div>
         )}
@@ -235,7 +257,12 @@ export function CarSelector() {
             })}
           </div>
 
-          <Recap area={null} component={null} service={selectedService} />
+          <Recap
+            area={null}
+            component={null}
+            service={selectedService}
+            onContinue={() => setDialogOpen(true)}
+          />
         </div>
       )}
 
@@ -249,6 +276,8 @@ export function CarSelector() {
           Je ne sais pas d'où vient le problème
         </button>
       )}
+
+      <RequestDialog open={dialogOpen} onOpenChange={setDialogOpen} prefill={prefill} />
     </div>
   );
 }
@@ -257,10 +286,12 @@ function Recap({
   area,
   component,
   service,
+  onContinue,
 }: {
   area: string | null;
   component: string | null;
   service: string | null;
+  onContinue: () => void;
 }) {
   return (
     <div className="mt-6 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
@@ -277,7 +308,7 @@ function Recap({
           "Nous vous orientons vers le bon service, sans diagnostic à distance."
         )}
       </p>
-      <Button size="lg" className="gap-2">
+      <Button size="lg" className="gap-2 whitespace-nowrap" onClick={onContinue}>
         Continuer ma demande <ArrowRight className="size-4" />
       </Button>
     </div>

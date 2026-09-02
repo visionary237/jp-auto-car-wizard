@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Check, ChevronRight, Info, MessageCircle, MousePointerClick } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, Info, MousePointerClick } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { ServiceCarView } from "@/components/services/ServiceCarView";
-import { RequestDialog } from "@/components/RequestDialog";
+import { RequestDialog, WhatsappIcon } from "@/components/RequestDialog";
+import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -33,10 +34,10 @@ export function ServicePageLayout({ page }: { page: ServicePage }) {
 
   const prefill = useMemo(
     () => ({
-      service: selectedService,
-      component: component?.name ?? "",
-      symptom: symptom?.label ?? "",
-      details: `Zone : ${AREAS[selectedArea]?.title ?? page.shortName} — page ${page.shortName}.`,
+      selectedService,
+      selectedComponent: component?.name ?? "",
+      selectedSymptom: symptom?.label ?? "",
+      selectedArea: AREAS[selectedArea]?.title ?? page.shortName,
     }),
     [selectedService, component, symptom, selectedArea, page.shortName],
   );
@@ -211,8 +212,10 @@ export function ServicePageLayout({ page }: { page: ServicePage }) {
                   <Button size="lg" className="gap-2" onClick={() => setDialogOpen(true)}>
                     Préparer ma demande <ArrowRight className="size-4" />
                   </Button>
-                  <Button size="lg" variant="outline" className="gap-2" onClick={() => setDialogOpen(true)}>
-                    <MessageCircle className="size-4" /> Continuer sur WhatsApp
+                  <Button size="lg" variant="outline" className="gap-2" asChild>
+                    <a href={buildWhatsappUrl(prefill)} target="_blank" rel="noopener noreferrer">
+                      <WhatsappIcon className="size-4" /> Envoyer ma demande sur WhatsApp
+                    </a>
                   </Button>
                 </div>
                 <p className="mt-4 text-xs text-muted-foreground">{DISCLAIMER}</p>

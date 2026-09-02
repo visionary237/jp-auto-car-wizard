@@ -1,6 +1,6 @@
 import type { AreaId } from "@/lib/car-selector-data";
 
-export const WHATSAPP_NUMBER = "33616628486";
+export { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 export const BRAND = "AUTO EXPRESS 76";
 export const SIGNATURE = "Vous montrez. On s'occupe du reste.";
 export const PROMISE = "Votre problème auto, identifié en quelques clics.";
