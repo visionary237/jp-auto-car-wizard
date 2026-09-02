@@ -84,6 +84,7 @@ const HIGHLIGHT: Partial<Record<AreaId, ReactNode>> = {
  */
 export function ServiceCarView({
   components,
+  area,
   focus,
   selected,
   hovered,

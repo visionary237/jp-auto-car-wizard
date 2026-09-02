@@ -67,6 +67,7 @@ export function ServicePageLayout({ page }: { page: ServicePage }) {
               <span className="eyebrow">Vue technique — {page.shortName}</span>
               <ServiceCarView
                 components={page.components}
+                area={page.area}
                 focus={page.focus}
                 selected={selectedComponent}
                 hovered={hovered}
