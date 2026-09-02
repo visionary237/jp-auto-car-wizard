@@ -130,7 +130,20 @@ export function ServiceCarView({
           <circle cx="240" cy="306" r="42" />
           <circle cx="724" cy="306" r="42" />
         </g>
+
+        {/* groupe mécanique concerné : accent orange */}
+        <g
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          opacity={selected ? 0.75 : 1}
+          style={{ transition: "opacity 300ms ease-out" }}
+        >
+          {HIGHLIGHT[area]}
+        </g>
       </g>
+
 
       {/* hotspots */}
       <g>
