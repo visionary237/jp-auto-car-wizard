@@ -213,6 +213,15 @@
   opacity: 0.42;
 }
 
+.car-body[data-soft="true"] {
+  opacity: 0.72;
+}
+
+.car-reveal[data-active="true"] {
+  filter: drop-shadow(0 0 6px oklch(from var(--color-accent) l c h / 0.55));
+}
+
+
 .car-zone:hover .car-zone-fill,
 .car-zone:focus-visible {
   outline: none;
