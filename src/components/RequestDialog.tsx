@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { ArrowRight, FlaskConical } from "lucide-react";
 import {
   Dialog,
