@@ -255,3 +255,141 @@
     opacity: 1;
   }
 }
+
+/* --- Hero vidéo : véhicule photoréaliste --- */
+.hero-stage {
+  background: oklch(0.13 0.008 250);
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+@media (min-width: 1024px) {
+  /* Fondu du bord gauche dans le fond de page */
+  .hero-stage {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%);
+    mask-image: linear-gradient(to right, transparent 0, #000 9%);
+  }
+}
+
+.photo-car-stage {
+  transition: transform 900ms cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+}
+
+.hotspot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  animation: callout-in 480ms ease-out both;
+}
+
+.hotspot-ring {
+  position: absolute;
+  inset: 0.25rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 70%, transparent);
+  animation: hotspot-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.hotspot-dot {
+  position: relative;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  box-shadow:
+    0 0 0 3px oklch(0.17 0.006 250 / 0.7),
+    0 0 18px 2px color-mix(in oklab, var(--color-accent) 70%, transparent);
+  transition: transform var(--transition-smooth);
+}
+
+.hotspot:hover .hotspot-dot,
+.hotspot:focus-visible .hotspot-dot,
+.hotspot[data-on="true"] .hotspot-dot {
+  transform: scale(1.35);
+}
+
+.hotspot:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.hotspot-label {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  white-space: nowrap;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  background: oklch(0.17 0.006 250 / 0.85);
+  backdrop-filter: blur(6px);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  transition: opacity var(--transition-smooth);
+  pointer-events: none;
+}
+
+@keyframes hotspot-ping {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  80%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.photo-car-ctl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 0.15);
+  background: oklch(0.17 0.006 250 / 0.7);
+  backdrop-filter: blur(6px);
+  padding: 0.35rem 0.8rem;
+  font-size: 0.72rem;
+  color: var(--color-muted-foreground);
+  transition: color var(--transition-smooth), border-color var(--transition-smooth);
+}
+
+.photo-car-ctl:hover {
+  color: var(--color-foreground);
+  border-color: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-car-stage {
+    transition-duration: 1ms;
+  }
+  .hotspot,
+  .hotspot-ring {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .hotspot {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  .hotspot-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    box-shadow:
+      0 0 0 2px oklch(0.17 0.006 250 / 0.7),
+      0 0 10px 1px color-mix(in oklab, var(--color-accent) 70%, transparent);
+  }
+  .hotspot-label {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
