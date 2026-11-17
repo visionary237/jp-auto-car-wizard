@@ -16,7 +16,7 @@ type Props = {
   onSelectComponent: (componentId: string, service: string) => void;
 };
 
-const MEDIA = "/media";
+const MEDIA = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/media`;
 
 /**
  * Véhicule photoréaliste : la vidéo de révélation se joue une fois puis s'arrête
