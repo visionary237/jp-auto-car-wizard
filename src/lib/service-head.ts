@@ -1,6 +1,6 @@
 import type { ServicePage } from "@/lib/service-pages-data";
 
-const SITE = "https://autoexpress76.fr";
+const SITE = "https://auto-express-76.com";
 
 export function serviceHead(page: ServicePage) {
   const url = `${SITE}/${page.slug}`;

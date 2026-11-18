@@ -404,7 +404,7 @@ export function ServiceFooter({ currentSlug }: { currentSlug?: string }) {
 }
 
 function buildJsonLd(page: ServicePage) {
-  const base = "https://autoexpress76.fr";
+  const base = "https://auto-express-76.com";
   const business = {
     "@type": "AutoRepair",
     name: "Auto Express 76",
