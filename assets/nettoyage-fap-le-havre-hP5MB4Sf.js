@@ -1,0 +1,1 @@
+import{f as e}from"./service-pages-data-Cf4eA2oE.js";import{n as t}from"./ServicePageLayout-B271x5eA.js";import{i as n}from"./index-C6E3YbWi.js";var r=e(),i=()=>(0,r.jsx)(t,{page:n});export{i as component};
