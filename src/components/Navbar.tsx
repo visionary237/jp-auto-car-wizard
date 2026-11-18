@@ -1,22 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const NAV = [
-  { label: "Accueil", href: "#accueil" },
-  { label: "Services", href: "#services" },
-  { label: "Notre garage", href: "#garage" },
-  { label: "Avis", href: "#avis" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "Montrez-nous où", hash: "explorer" },
+  { label: "Prestations", hash: "services" },
+  { label: "L'atelier", hash: "atelier" },
+  { label: "Contact", hash: "contact" },
 ];
 
-export function Navbar() {
+export function Navbar({ overlay = false }: { overlay?: boolean }) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(!overlay);
+  useEffect(() => {
+    if (!overlay) return;
+    const on = () => setScrolled(window.scrollY > 40);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, [overlay]);
+  const solid = scrolled || open;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
+    <header
+      className={cn(
+        "top-0 z-50 w-full border-b transition-colors duration-500",
+        overlay ? "fixed" : "sticky",
+        solid ? "border-border/70 bg-background/85 backdrop-blur-xl" : "border-transparent bg-transparent",
+      )}
+    >
       <div className="mx-auto flex max-w-7xl items-center gap-6 px-4 py-3.5 sm:px-6">
         <Link to="/" className="flex min-w-0 items-center gap-3" aria-label="AUTO EXPRESS 76 — accueil">
           <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-accent/50 bg-accent/10 font-display text-sm font-bold text-accent">
@@ -34,20 +48,23 @@ export function Navbar() {
 
         <nav className="ml-auto hidden items-center gap-7 lg:flex">
           {NAV.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
+            <Link
+              key={item.hash}
+              to="/"
+              hash={item.hash}
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
-          <Button className="hidden gap-2 sm:inline-flex">
-            <Phone className="size-4" />
-            Prendre rendez-vous
+          <Button asChild className="hidden gap-2 sm:inline-flex">
+            <Link to="/" hash="explorer">
+              <Phone className="size-4" />
+              Prendre rendez-vous
+            </Link>
           </Button>
           <button
             type="button"
@@ -64,19 +81,22 @@ export function Navbar() {
         <nav className="animate-fade-in border-t border-border bg-background px-4 pb-5 pt-3 lg:hidden">
           <ul className="grid gap-1">
             {NAV.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
+              <li key={item.hash}>
+                <Link
+                  to="/"
+                  hash={item.hash}
                   onClick={() => setOpen(false)}
                   className="block rounded-lg px-3 py-3 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
-          <Button className="mt-3 w-full gap-2">
-            <Phone className="size-4" /> Prendre rendez-vous
+          <Button asChild className="mt-3 w-full gap-2">
+            <Link to="/" hash="explorer" onClick={() => setOpen(false)}>
+              <Phone className="size-4" /> Prendre rendez-vous
+            </Link>
           </Button>
         </nav>
       )}

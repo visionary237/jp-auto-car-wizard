@@ -1,16 +1,14 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
-import { ArrowLeft, ArrowRight, Check, HelpCircle, MousePointerClick, X } from "lucide-react";
-import { PhotoCar } from "@/components/PhotoCar";
+import { ArrowLeft, ArrowRight, Check, HelpCircle, X } from "lucide-react";
+import { OrbitExplorer } from "@/components/OrbitExplorer";
 import { RequestDialog } from "@/components/RequestDialog";
 import { AREAS, GLOBAL_SYMPTOMS, QUICK_AREAS, type AreaId } from "@/lib/car-selector-data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 
-export function CarSelector({ intro }: { intro?: ReactNode }) {
-  const isMobile = useIsMobile();
+export function CarSelector() {
 
   const [selectedArea, setSelectedArea] = useState<AreaId | null>(null);
   const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
@@ -50,7 +48,7 @@ export function CarSelector({ intro }: { intro?: ReactNode }) {
       return;
     }
     setShowComponents(false);
-    const t = setTimeout(() => setShowComponents(true), 820);
+    const t = setTimeout(() => setShowComponents(true), 50);
     return () => clearTimeout(t);
   }, [zoomed, selectedArea]);
 
@@ -77,7 +75,7 @@ export function CarSelector({ intro }: { intro?: ReactNode }) {
 
   // Bascule animée du contenu de la colonne gauche (accroche ↔ fiche de zone)
   const leftRef = useRef<HTMLDivElement>(null);
-  const leftKey = zoomed ? `area-${selectedArea}` : unknownMode ? "unknown" : "intro";
+  const leftKey = zoomed ? `area-${selectedArea}` : unknownMode ? "unknown" : "idle";
   useEffect(() => {
     const el = leftRef.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -204,23 +202,58 @@ export function CarSelector({ intro }: { intro?: ReactNode }) {
     </div>
   );
 
-  return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:items-center lg:gap-10">
-      {/* Colonne gauche : accroche, ou fiche de la zone explorée */}
-      <div ref={leftRef} key={leftKey} className={cn("min-w-0", panelOpen ? "order-2 lg:order-1" : "order-1")}>
-        {zoomed ? areaPanel : unknownMode ? unknownPanel : intro}
+  // Fiche vide : le parcours en trois étapes, comme une fiche d'atelier.
+  const idlePanel = (
+    <div className="surface-panel rounded-2xl p-5 sm:p-7">
+      <div data-reveal>
+        <span className="eyebrow">Fiche d'intervention</span>
+        <h3 className="mt-2 font-display text-2xl font-bold sm:text-3xl">Votre demande, en trois touches.</h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Touchez une zone sur la voiture : la fiche se remplit, l'atelier reçoit une demande claire.
+        </p>
       </div>
+      <ol className="mt-6 divide-y divide-border/70 border-y border-border/70">
+        {[
+          ["Zone du véhicule", hovered ? AREAS[hovered].shortLabel : "À choisir sur la voiture"],
+          ["Ce que vous constatez", "Bruit, voyant, vibration…"],
+          ["Pièce concernée", "Facultatif"],
+        ].map(([k, v], i) => (
+          <li key={k} className="flex items-center justify-between gap-4 py-4" data-reveal>
+            <span className="flex items-center gap-4">
+              <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
+              <span className="text-sm font-semibold">{k}</span>
+            </span>
+            <span className={cn("text-right text-sm", i === 0 && hovered ? "text-foreground" : "text-muted-foreground")}>{v}</span>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-6 flex flex-col gap-3" data-reveal>
+        <Button size="lg" disabled className="w-full justify-between">
+          Envoyer ma fiche <ArrowRight className="size-4" />
+        </Button>
+        <button
+          type="button"
+          onClick={openUnknown}
+          className="inline-flex items-center gap-2 self-start text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-accent hover:underline"
+        >
+          <HelpCircle className="size-4" />
+          Je ne sais pas d'où vient le problème
+        </button>
+      </div>
+    </div>
+  );
 
-      {/* Colonne droite : le véhicule */}
-      <div className="order-1 min-w-0 lg:order-2 lg:-mr-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
-        <div className="hero-stage relative -mx-4 sm:mx-0 sm:rounded-2xl lg:rounded-r-none">
-          <PhotoCar
+  return (
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
+      {/* Le véhicule */}
+      <div className="min-w-0">
+        <div className="orbit-frame relative -mx-4 overflow-hidden sm:mx-0 sm:rounded-2xl">
+          <OrbitExplorer
             selected={selectedArea}
             hovered={hovered}
             selectedComponent={selectedComponent}
             zoomed={zoomed}
             showComponents={showComponents}
-            compact={isMobile}
             onHover={setHovered}
             onSelectArea={selectArea}
             onSelectComponent={(id, service) => {
@@ -228,8 +261,8 @@ export function CarSelector({ intro }: { intro?: ReactNode }) {
               setSelectedService(service);
             }}
           />
-          <span className="eyebrow pointer-events-none absolute left-4 top-4 text-ivory/80 sm:left-6 sm:top-5 lg:left-[11%]">
-            {area ? area.title : "Sélecteur véhicule"}
+          <span className="eyebrow pointer-events-none absolute left-4 top-4 text-ivory/70 sm:left-6 sm:top-5">
+            {area ? area.title : "Véhicule à 360°"}
           </span>
           {zoomed && (
             <button
@@ -242,47 +275,34 @@ export function CarSelector({ intro }: { intro?: ReactNode }) {
           )}
         </div>
 
-        <div className="mt-4 flex flex-col gap-3 lg:pr-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
-          {!zoomed && (
-            <p className="flex items-center gap-2 text-xs text-muted-foreground">
-              <MousePointerClick className="size-3.5 text-accent" />
-              Cliquez sur une zone du véhicule
-            </p>
-          )}
-          {/* Raccourcis accessibles / mobile */}
-          <div className="flex flex-wrap gap-2">
-            {QUICK_AREAS.map((id) => (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={selectedArea === id}
-                onClick={() => selectArea(id)}
-                onMouseEnter={() => setHovered(id)}
-                onMouseLeave={() => setHovered(null)}
-                className={cn(
-                  "rounded-full border px-3.5 py-2 text-sm transition-all duration-300",
-                  selectedArea === id
-                    ? "border-accent bg-accent text-accent-foreground"
-                    : hovered === id
-                      ? "border-accent text-foreground"
-                      : "border-border bg-card text-muted-foreground hover:border-accent hover:text-foreground",
-                )}
-              >
-                {AREAS[id].shortLabel}
-              </button>
-            ))}
-          </div>
-          {!unknownMode && (
+        {/* Raccourcis accessibles */}
+        <div className="mt-5 flex flex-wrap gap-2" aria-label="Zones du véhicule">
+          {QUICK_AREAS.map((id) => (
             <button
+              key={id}
               type="button"
-              onClick={openUnknown}
-              className="inline-flex items-center gap-2 self-start text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-accent hover:underline"
+              aria-pressed={selectedArea === id}
+              onClick={() => selectArea(id)}
+              onMouseEnter={() => setHovered(id)}
+              onMouseLeave={() => setHovered(null)}
+              className={cn(
+                "rounded-full border px-3.5 py-2 text-sm transition-all duration-300",
+                selectedArea === id
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : hovered === id
+                    ? "border-accent text-foreground"
+                    : "border-border bg-card text-muted-foreground hover:border-accent hover:text-foreground",
+              )}
             >
-              <HelpCircle className="size-4" />
-              Je ne sais pas d'où vient le problème
+              {AREAS[id].shortLabel}
             </button>
-          )}
+          ))}
         </div>
+      </div>
+
+      {/* La fiche */}
+      <div ref={leftRef} key={leftKey} className="min-w-0 lg:sticky lg:top-24">
+        {zoomed ? areaPanel : unknownMode ? unknownPanel : idlePanel}
       </div>
 
       <RequestDialog open={dialogOpen} onOpenChange={setDialogOpen} prefill={prefill} />

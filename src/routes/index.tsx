@@ -1,9 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { ArrowRight, MessageCircle } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Navbar } from "@/components/Navbar";
+import { HeroOrbit } from "@/components/HeroOrbit";
 import { CarSelector } from "@/components/CarSelector";
+import { ServicesGallery } from "@/components/ServicesGallery";
 import { ServiceFooter } from "@/components/services/ServicePageLayout";
-import { SERVICE_PAGES, SERVICE_ROUTES, type ServiceSlug } from "@/lib/service-pages-data";
-
+import { SIGNATURE, WHATSAPP_NUMBER } from "@/lib/service-pages-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -12,80 +17,135 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Montrez-nous où est le problème : sélectionnez une zone de votre véhicule et obtenez la bonne prise en charge au garage AUTO EXPRESS 76, au Havre.",
+          "Montrez-nous où est le problème : faites tourner votre véhicule, touchez la zone concernée et obtenez la bonne prise en charge au garage AUTO EXPRESS 76, au Havre.",
       },
       { property: "og:title", content: "AUTO EXPRESS 76 — Garage automobile au Havre" },
       {
         property: "og:description",
-        content:
-          "Un bruit, un voyant, une pièce à contrôler ? Préqualifiez votre besoin en ligne avec notre sélecteur véhicule interactif.",
+        content: "Mécanique, diagnostic et entretien au Havre. Montrez-nous où, on s'occupe du reste.",
       },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
 });
 
+const METHOD = [
+  { n: "01", t: "Vous montrez.", d: "Une zone sur la voiture, un symptôme, quelques mots. Pas besoin de connaître le nom de la pièce." },
+  { n: "02", t: "On vérifie.", d: "L'atelier étudie votre demande puis contrôle le véhicule avant de proposer quoi que ce soit." },
+  { n: "03", t: "On explique.", d: "Vous savez ce qui est fait, pourquoi, et ce qui peut attendre. Vous validez avant les travaux." },
+];
+
 function Index() {
+  // Révélations au défilement pour les sections éditoriales.
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.utils.toArray<HTMLElement>("[data-scroll-reveal]").forEach((el) =>
+        gsap.from(el, { opacity: 0, y: 40, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%", once: true } }),
+      );
+      gsap.utils.toArray<HTMLElement>("[data-line]").forEach((el) =>
+        gsap.fromTo(el, { scaleX: 0 }, { scaleX: 1, ease: "none", scrollTrigger: { trigger: el, start: "top 90%", end: "top 50%", scrub: true } }),
+      );
+    });
+    const t = setTimeout(() => ScrollTrigger.refresh(), 400);
+    return () => {
+      clearTimeout(t);
+      mm.revert();
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      <main id="accueil">
-        <section className="relative overflow-hidden">
-          <div className="hero-glow pointer-events-none absolute inset-0" aria-hidden="true" />
-          <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:py-16">
-            <CarSelector
-              intro={
-                <div>
-                  <p className="eyebrow" data-reveal>Garage automobile • Le Havre</p>
-                  <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] sm:text-5xl xl:text-6xl">
-                    <span className="block" data-reveal>Un problème avec votre voiture ?</span>
-                    <span className="mt-2 block text-accent" data-reveal>Montrez-nous où.</span>
-                  </h1>
-                  <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg" data-reveal>
-                    Un bruit, un voyant ou une pièce à contrôler ? Sélectionnez une zone de votre véhicule
-                    et laissez-nous vous guider vers la bonne prise en charge.
-                  </p>
-                  <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground" data-reveal>
-                    <span className="inline-flex items-center gap-2">
-                      <span className="size-2 rounded-full bg-accent" />
-                      Réponse rapide, sans appel téléphonique
-                    </span>
-                    <span className="inline-flex items-center gap-2">
-                      <span className="size-2 rounded-full bg-accent/60" />
-                      Devis et rendez-vous en quelques clics
-                    </span>
-                  </div>
-                </div>
-              }
-            />
+      <Navbar overlay />
+      <main>
+        <HeroOrbit />
+
+        {/* Montrez-nous où */}
+        <section id="explorer" aria-labelledby="explorer-title" className="relative scroll-mt-16 border-t border-border/60 py-20 sm:py-28">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <div className="mb-10 grid gap-6 lg:mb-14 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-10" data-scroll-reveal>
+              <div>
+                <span className="eyebrow">Diagnostic guidé</span>
+                <h2 id="explorer-title" className="editorial-title mt-4 text-ivory">
+                  Montrez-nous <span className="text-accent">où.</span>
+                </h2>
+              </div>
+              <p className="text-sm text-muted-foreground sm:text-base">
+                Faites tourner la voiture, touchez la zone qui vous inquiète. La fiche se remplit toute seule et
+                l'atelier reçoit une demande claire, sans appel téléphonique.
+              </p>
+            </div>
+            <CarSelector />
           </div>
         </section>
 
-        <section id="services" className="border-t border-border/60 bg-card/30">
-          <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-            <span className="eyebrow">Nos prestations • Le Havre</span>
-            <h2 className="mt-3 font-display text-2xl font-bold sm:text-3xl">
-              Explorez votre véhicule, service par service
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
-              Chaque page détaille les pièces concernées, les signes qui doivent alerter et vous permet de
-              transmettre votre demande directement à l'atelier.
-            </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {Object.values(SERVICE_PAGES).map((p) => (
-                <Link
-                  key={p.slug}
-                  to={SERVICE_ROUTES[p.slug as ServiceSlug]}
-                  className="surface-panel group rounded-2xl p-5 transition-colors hover:border-accent/60"
+        <ServicesGallery />
+
+        {/* L'atelier */}
+        <section id="atelier" aria-labelledby="atelier-title" className="relative scroll-mt-16 border-t border-border/60 py-24 sm:py-32">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+              <div data-scroll-reveal>
+                <span className="eyebrow">L'atelier</span>
+                <h2 id="atelier-title" className="editorial-title mt-4 text-ivory">
+                  {SIGNATURE.split(". ").map((s, i, a) => (
+                    <span key={s} className={i === 1 ? "block text-accent" : "block"}>
+                      {s}
+                      {i < a.length - 1 ? "." : ""}
+                    </span>
+                  ))}
+                </h2>
+              </div>
+              <ol className="grid gap-px self-end overflow-hidden rounded-2xl border border-border/70 bg-border/70 sm:grid-cols-3">
+                {METHOD.map((m) => (
+                  <li key={m.n} className="bg-background p-6 sm:p-7" data-scroll-reveal>
+                    <span className="font-mono text-xs text-accent">{m.n}</span>
+                    <p className="mt-10 font-display text-2xl font-bold tracking-tight">{m.t}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{m.d}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div data-line className="mt-20 h-px origin-left bg-gradient-to-r from-accent via-ivory/30 to-transparent" />
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" aria-labelledby="contact-title" className="relative scroll-mt-16 overflow-hidden pb-10 pt-20 sm:pt-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end" data-scroll-reveal>
+              <h2 id="contact-title" className="editorial-title text-ivory">
+                Une question ?
+                <br />
+                <span className="text-muted-foreground">Écrivez-nous.</span>
+              </h2>
+              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-between gap-3 rounded-full bg-accent px-6 py-4 font-semibold text-accent-foreground transition hover:brightness-110"
                 >
-                  <span className="font-display text-base font-bold group-hover:text-accent">{p.shortName}</span>
-                  <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">{p.intro}</p>
-                </Link>
-              ))}
+                  <span className="inline-flex items-center gap-2">
+                    <MessageCircle className="size-5" /> Écrire sur WhatsApp
+                  </span>
+                  <ArrowRight className="size-4" />
+                </a>
+                <a
+                  href="#explorer"
+                  className="inline-flex items-center justify-between gap-3 rounded-full border border-border px-6 py-4 font-semibold text-foreground transition hover:border-accent"
+                >
+                  Décrire mon problème <ArrowRight className="size-4" />
+                </a>
+              </div>
             </div>
           </div>
+          {/* Logo-titre de clôture */}
+          <p aria-hidden="true" className="wordmark mt-20 select-none text-center text-ivory/[0.07]">
+            AUTO EXPRESS 76
+          </p>
         </section>
 
         <ServiceFooter />
@@ -93,4 +153,3 @@ function Index() {
     </div>
   );
 }
-

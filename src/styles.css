@@ -393,3 +393,32 @@
     padding: 0.2rem 0.5rem;
   }
 }
+
+/* --- Typographie éditoriale --- */
+.editorial-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 6.2vw, 5.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 10.2vw, 11.5rem);
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+}
+
+/* --- Véhicule 360° --- */
+.orbit-frame {
+  background: oklch(0.1 0.004 250);
+  box-shadow: var(--shadow-panel);
+}
+
+.orbit-stage canvas {
+  image-rendering: auto;
+}
