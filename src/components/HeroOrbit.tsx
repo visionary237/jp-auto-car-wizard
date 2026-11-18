@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowDown } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FRAME_COUNT, VIEWS } from "@/lib/orbit";
+import { FRAME_COUNT } from "@/lib/orbit";
 import { useCanvasDraw, useFrameSequence } from "@/hooks/use-frame-sequence";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,6 @@ const CHAPTERS = [
 /** Bornes de progression (0 → 1) de chaque chapitre. */
 const BOUNDS = [0, 0.18, 0.4, 0.6, 0.8, 1.01];
 
-const viewLabel = (f: number) => (f < 21 ? VIEWS.front.label : f < 66 ? VIEWS.profile.label : f < 106 ? VIEWS.rear.label : "Trois-quarts");
 
 export function HeroOrbit() {
   const section = useRef<HTMLElement>(null);
@@ -25,8 +24,7 @@ export function HeroOrbit() {
   const { canvas, draw } = useCanvasDraw();
   const frame = useRef(0);
   const [chapter, setChapter] = useState(0);
-  const [view, setView] = useState(VIEWS.front.label);
-  const [progress, setProgress] = useState(0);
+    const [progress, setProgress] = useState(0);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches), []);
@@ -55,7 +53,6 @@ export function HeroOrbit() {
           draw(frame.current);
           setProgress(p);
           setChapter(BOUNDS.findIndex((b, i) => p >= b && p < BOUNDS[i + 1]));
-          setView(viewLabel(frame.current));
         },
       });
       // Entrée : le logo-titre monte, la voiture sort de l'ombre.
@@ -89,14 +86,6 @@ export function HeroOrbit() {
         {/* Haut : repères */}
         <div className="absolute inset-x-0 top-[84px] z-10 mx-auto flex max-w-7xl items-start justify-between px-4 sm:px-6" data-hero-fade>
           <p className="eyebrow text-ivory/70">Garage automobile — Le Havre</p>
-          <div className="hidden text-right font-mono text-[11px] uppercase tracking-[0.2em] text-ivory/50 sm:block">
-            <p>
-              Vue <span className="text-ivory">{view}</span>
-            </p>
-            <p className="mt-1">
-              {String(Math.max(chapter, 0) + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
-            </p>
-          </div>
         </div>
 
         {/* Chapitres */}
